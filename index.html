@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Login | Sign Up</title>
+    <!-- Firebase SDK -->
+    <!-- Firebase Compat SDKs -->
+<!-- Firebase SDKs -->
+  <script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="style.css">
+<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
+
+ <script src="work.js"></script>
+
+
+</head>
+<body>
+    <!-- Particle Background -->
+    <div id="particles-js"></div>
+    
+    <!-- Lines Background -->
+    <ul class="lines">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    
+    <!-- Main Content -->
+    <div class="container flex items-center justify-center min-h-screen p-4">
+        <div class="auth-container w-full max-w-md p-8 relative overflow-hidden">
+            <!-- Tab Toggle -->
+            <div class="flex mb-8">
+                <button id="login-tab" class="flex-1 py-2 font-medium text-center border-b-2 border-primary text-primary">
+                    Login
+                </button>
+                <button id="signup-tab" class="flex-1 py-2 font-medium text-center border-b-2 border-transparent">
+                    Sign Up
+                </button>
+            </div>
+            
+            <!-- Login Form -->
+            <form id="login-form" class="space-y-6">
+                <h2 class="text-2xl font-bold mb-6 text-center">Welcome Back</h2>
+                
+                <div class="space-y-2">
+                    <label for="login-email" class="block text-sm font-medium">Email Address</label>
+                    <input type="email" id="login-email" class="form-control w-full px-4 py-3 rounded-lg" placeholder="yourmail@example.com" required>
+                </div>
+                
+                <div class="space-y-2">
+                    <label for="login-password" class="block text-sm font-medium">Password</label>
+                    <input type="password" id="login-password" class="form-control w-full px-4 py-3 rounded-lg" placeholder="••••••••" required>
+                </div>
+                
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input id="remember-me" type="checkbox" class="form-control h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary">
+                        <label for="remember-me" class="ml-2 block text-sm">Remember me</label>
+                    </div>
+                    <a href="#" class="text-sm toggle-form">Forgot password?</a>
+                </div>
+                
+                <button type="submit" class="btn-primary w-full py-3 rounded-lg font-medium">
+                    Sign In
+                </button>
+                
+                <p class="text-center text-sm">
+                    Don't have an account? <button type="button" class="toggle-form" id="show-signup">Sign up</button>
+                </p>
+            </form>
+            
+            <!-- Signup Form (Hidden by default) -->
+            <form id="signup-form" class="space-y-6 hidden">
+                <h2 class="text-2xl font-bold mb-6 text-center">Create Account</h2>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-2">
+                        <label for="signup-fname" class="block text-sm font-medium">First Name</label>
+                        <input type="text" id="signup-fname" class="form-control w-full px-4 py-3 rounded-lg" placeholder="John" required>
+                    </div>
+                    
+                    <div class="space-y-2">
+                        <label for="signup-lname" class="block text-sm font-medium">Last Name</label>
+                        <input type="text" id="signup-lname" class="form-control w-full px-4 py-3 rounded-lg" placeholder="Doe" required>
+                    </div>
+                </div>
+                
+                <div class="space-y-2">
+                    <label for="signup-email" class="block text-sm font-medium">Email Address</label>
+                    <input type="email" id="signup-email" class="form-control w-full px-4 py-3 rounded-lg" placeholder="you@example.com" required>
+                </div>
+                
+                <div class="space-y-2">
+                    <label for="signup-password" class="block text-sm font-medium">Password</label>
+                    <input type="password" id="signup-password" class="form-control w-full px-4 py-3 rounded-lg" placeholder="••••••••" required>
+                </div>
+                
+                <div class="space-y-2">
+                    <label for="signup-confirm" class="block text-sm font-medium">Confirm Password</label>
+                    <input type="password" id="signup-confirm" class="form-control w-full px-4 py-3 rounded-lg" placeholder="••••••••" required>
+                </div>
+                
+                <button type="submit" class="btn-primary w-full py-3 rounded-lg font-medium">
+                    Sign Up
+                </button>
+                
+                <p class="text-center text-sm">
+                    Already have an account? <button type="button" class="toggle-form" id="show-login">Log in</button>
+                </p>
+            </form>
+            
+            <!-- Messages -->
+            <div id="message" class="absolute top-4 left-4 right-4 hidden"></div>
+        </div>
+    </div>
+    
+    <!-- Dashboard Page (Hidden by default) -->
+    <div id="dashboard" class="hidden fixed inset-0 z-50 bg-gradient-to-br from-slate-900 to-slate-800 flex flex-col items-center justify-center p-6">
+        <div class="max-w-4xl w-full bg-slate-800 rounded-xl shadow-2xl p-8 backdrop-blur-sm border border-slate-700">
+            <div class="flex justify-between items-center mb-8">
+                <h1 class="text-3xl font-bold text-white">Welcome to Your Dashboard</h1>
+                <button id="logout-btn" class="px-4 py-2 bg-red-500 hover:bg-red-600 rounded-lg text-white font-medium transition">
+                    Logout
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-slate-700 rounded-xl p-6 shadow-lg">
+                    <h3 class="text-xl font-semibold mb-4">Profile</h3>
+                    <div class="flex items-center space-x-4 mb-4">
+                        <div class="w-16 h-16 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-white text-2xl font-bold" id="profile-icon">JD</div>
+                        <div>
+                            <p class="text-lg font-medium" id="display-name">John Doe</p>
+                            <p class="text-slate-300 text-sm" id="user-email">john@example.com</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-slate-700 rounded-xl p-6 shadow-lg">
+                    <h3 class="text-xl font-semibold mb-4">Recent Activity</h3>
+                    <div class="space-y-3">
+                        <div class="flex space-x-3">
+                            <div class="w-2 h-2 mt-2 rounded-full bg-green-500"></div>
+                            <div>
+                                <p class="text-sm font-medium">You logged in</p>
+                                <p class="text-xs text-slate-400">Just now</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-slate-700 rounded-xl p-6 shadow-lg">
+                    <h3 class="text-xl font-semibold mb-4">Quick Actions</h3>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button class="bg-indigo-600 hover:bg-indigo-700 py-2 px-4 rounded-lg text-white text-sm font-medium transition">Settings</button>
+                        <button class="bg-slate-600 hover:bg-slate-500 py-2 px-4 rounded-lg text-white text-sm font-medium transition">Help</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+      <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+      
+      </body>
+</html>
